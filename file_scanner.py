@@ -1,6 +1,8 @@
 import os
 import db_handler
 
+MAX_FILE_SIZE = 30 * 1024 * 1024 # 30 MB
+
 # Iterative DFS for file indexing - To avoid recursion limits
 stack = [os.path.expanduser("~")]
 text_types = {"pdf", "docx", "pptx", "xlsx", "txt", "md", "py", "cpp", "c", "rs", "html", "css", "js"}
@@ -41,7 +43,11 @@ while stack:
                     file_attrs["filename"] = item
                     file_attrs["extension"] = extension
                     try:
-                        file_attrs["size"] = os.path.getsize(full_path)
+                        size = os.path.getsize(full_path)
+                        if size > MAX_FILE_SIZE:
+                            continue
+                        else:
+                            file_attrs["size"] = size
                         file_attrs["modified"] = os.path.getmtime(full_path) # Seconds since epoch
                     except OSError:
                         file_attrs["size"] = None

@@ -41,6 +41,10 @@ def debug_data():
     cur.execute("SELECT * FROM files WHERE extension='pdf';")
     return cur.fetchall()
 
+def get_text_files():
+    cur.execute("SELECT * FROM files WHERE file_type='text';")
+    return cur.fetchall()
+
 def commit_changes():
     conn.commit()
 
