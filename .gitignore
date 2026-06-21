@@ -1,4 +1,8 @@
 .venv/
 __pycache__/
+chroma_db/
 *.db
 architecture.txt
+sample.txt
+sample.py
+chroma_tester.py
