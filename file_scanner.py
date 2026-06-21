@@ -1,16 +1,17 @@
 import os
+import db_handler
 
 # Iterative DFS for file indexing - To avoid recursion limits
 stack = [os.path.expanduser("~")]
 text_types = {"pdf", "docx", "pptx", "xlsx", "txt", "md", "py", "cpp", "c", "rs", "html", "css", "js"}
 metadata_types = {"zip", "7z", "jpg", "png", "mp4", "mkv", "exe"}
-ignore_directories = {"node_modules", "__pycache__", "snapd", "venv", "AppData", "ProgramData"}
+ignore_directories = {"node_modules", "__pycache__", "snapd", "venv", "appdata", "programdata"}
 
 directories_visited = 0
 files_scanned = 0
 files_indexed = 0
 
-files = []
+db_handler.create_table()
 
 while stack:
     current = stack.pop()
@@ -45,15 +46,25 @@ while stack:
                     except OSError:
                         file_attrs["size"] = None
                         file_attrs["modified"] = None
-                    files.append(file_attrs)
+
+                    if extension in text_types:
+                        file_attrs["file_type"] = "text"
+                    else:
+                        file_attrs["file_type"] = "metadata"
+
+                    db_handler.add_to_db(file_attrs)
                     files_indexed += 1
 
     except PermissionError:
         continue
 
-for file in files:
-    print(file["filename"])
+db_handler.commit_changes()
+
+for row in db_handler.debug_data():
+    print(row[0], row[1])
 
 print("\nDirectories visited:", directories_visited)
 print("Files scanned:", files_scanned)
 print("Files indexed:", files_indexed)
+
+db_handler.close_db()
