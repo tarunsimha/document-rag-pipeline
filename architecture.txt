@@ -1,0 +1,46 @@
+                 File System
+                      │
+              File Scanner
+                      │
+        ┌─────────────┴─────────────┐
+        │                           │
+   Metadata DB (SQLite)    Text Extractor
+        │                           │
+        └─────────────┬─────────────┘
+                      │
+              Embedding Model
+                      │
+                  ChromaDB
+                      │
+                   Retriever
+                      │
+                    Ollama
+                      │
+               Streamlit/PyQt6
+
+    (Watchdog to keep track of new files added)
+
+
+Supported file types:
+pdf
+docx
+pptx
+xlsx
+txt
+md
+py
+cpp
+c
+rs
+html
+css
+js
+
+Metadata only:
+zip
+7z
+jpg
+png
+mp4
+mkv
+exe
