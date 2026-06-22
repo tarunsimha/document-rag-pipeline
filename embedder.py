@@ -1,10 +1,10 @@
-from db_handler import get_text_files
+from db_handler import get_all_files
 from chromadb_handler import add_chunks
 from chunker import chunk_text
 from extraction_manager import extract_text
 from sentence_transformers import SentenceTransformer
 
-files_data = get_text_files()
+files_data = get_all_files()
 
 all_chunks = []
 chunk_counts = []
@@ -14,22 +14,38 @@ print("Extracting and chunking files...")
 
 for file in files_data:
     try:
-        print(f"Chunking {file[2]}")
+        if file[6] == 'text':
+            print(f"Chunking {file[2]}")
 
-        text = extract_text(file[1], file[3])
+            text = extract_text(file[1], file[3])
 
-        if not text or not text.strip():
-            continue
+            if not text or not text.strip():
+                continue
 
-        chunks = chunk_text(text)
+            chunks = chunk_text(text)
 
-        if not chunks:
-            continue
+            if not chunks:
+                continue
 
-        all_chunks.extend(chunks)
+            all_chunks.extend(chunks)
 
-        chunk_counts.append(len(chunks))
-        valid_files.append(file)
+            chunk_counts.append(len(chunks))
+            valid_files.append(file)
+        else:
+            print(f"Metadata only file: {file[2]}")
+            metadata_text = f"""
+            File information
+
+            Filename: {file[2]}
+            Extension: {file[3]}
+            Path: {file[1]}
+            Size: {file[4]} bytes
+            """
+
+            all_chunks.append(metadata_text)
+
+            chunk_counts.append(1)
+            valid_files.append(file)
 
     except Exception as e:
         print(f"Failed to process {file[2]}: {e}")
