@@ -7,7 +7,7 @@ MAX_FILE_SIZE = 30 * 1024 * 1024 # 30 MB
 stack = [os.path.expanduser("~")]
 text_types = {"pdf", "docx", "pptx", "xlsx", "txt", "md", "py", "cpp", "c", "rs", "html", "css", "js"}
 metadata_types = {"zip", "7z", "jpg", "png", "mp4", "mkv", "exe"}
-ignore_directories = {"node_modules", "__pycache__", "snapd", "venv", "appdata", "programdata"}
+ignore_directories = {"node_modules", "__pycache__", "snapd", "venv", "appdata", "programdata", "nltk_data"}
 
 directories_visited = 0
 files_scanned = 0

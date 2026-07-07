@@ -1,6 +1,6 @@
 from nltk.tokenize import sent_tokenize
 
-def chunk_text(text, chunk_size=1000, overlap_sentences=2):
+def chunk_text(text, chunk_size=500, overlap_sentences=1):
     sentences = sent_tokenize(text)
 
     chunks = []
