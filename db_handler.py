@@ -36,7 +36,7 @@ def add_to_db(file_attrs):
         file_attrs["modified"],
         file_attrs["file_type"]
     ))
-    
+
 def debug_data():
     cur.execute("SELECT * FROM files WHERE extension='pdf';")
     return cur.fetchall()
@@ -44,6 +44,10 @@ def debug_data():
 def get_all_files():
     cur.execute("SELECT * FROM files;")
     return cur.fetchall()
+
+def delete_table():
+    cur.execute("DROP TABLE files;")
+    commit_changes()
 
 def commit_changes():
     conn.commit()
